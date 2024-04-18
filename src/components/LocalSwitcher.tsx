@@ -1,8 +1,15 @@
 "use client";
 
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useTransition } from "react";
 
 const LocalSwitcher = () => {
@@ -18,18 +25,28 @@ const LocalSwitcher = () => {
   };
   return (
     <>
-      <InputLabel id="demo-simple-select-label">change language</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Age"
-        onChange={onSelectChange}
-        disabled={isPending}
-        defaultValue={localActive}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginRight: 5
+        }}
       >
-        <MenuItem value="en">English</MenuItem>
-        <MenuItem value="fa">فارسی</MenuItem>
-      </Select>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">change language</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={onSelectChange}
+            disabled={isPending}
+            defaultValue={localActive}
+          >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="fa">فارسی</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
     </>
   );
 };
