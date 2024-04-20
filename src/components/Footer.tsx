@@ -5,7 +5,7 @@ import React from "react";
 const Footer = () => {
   const t = useTranslations("Footer");
   return (
-    <Typography sx={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+    <Typography sx={{ display: "flex", justifyContent: "center" }}>
       {t("copyright")}
     </Typography>
   );

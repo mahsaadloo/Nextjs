@@ -1,52 +1,71 @@
 "use client";
 
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
-import { useLocale } from "next-intl";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import React, { startTransition } from "react";
+import LanguageIcon from "@mui/icons-material/Language";
 import { useRouter } from "next/navigation";
-import React, { useTransition } from "react";
 
 const LocalSwitcher = () => {
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const localActive = useLocale();
 
-  const onSelectChange = (event: SelectChangeEvent<string>) => {
-    const nextLocale = event.target.value;
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const onSelectChange = (language: string) => {
     startTransition(() => {
-      router.replace(`/${nextLocale}`);
+      router.replace(`/${language}`);
     });
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginRight: 5
+      <IconButton
+        aria-label="more"
+        id="long-button"
+        aria-controls={open ? "long-menu" : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <LanguageIcon />
+      </IconButton>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            // maxHeight: ITEM_HEIGHT * 4.5,
+            width: "20ch",
+          },
         }}
       >
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">change language</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={onSelectChange}
-            disabled={isPending}
-            defaultValue={localActive}
-          >
-            <MenuItem value="en">English</MenuItem>
-            <MenuItem value="fa">فارسی</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+        <MenuItem
+          onClick={() => {
+            onSelectChange("en");
+          }}
+        >
+          English
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onSelectChange("fa");
+          }}
+        >
+          فارسی
+        </MenuItem>
+      </Menu>
     </>
   );
 };
