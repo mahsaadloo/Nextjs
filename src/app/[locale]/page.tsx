@@ -5,7 +5,7 @@ export default function Index() {
   const t = useTranslations("Index");
   return (
     <>
-      <Box sx={{ display: "flex", marginTop: 2, justifyContent: "center" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         {t("title")}
       </Box>
     </>

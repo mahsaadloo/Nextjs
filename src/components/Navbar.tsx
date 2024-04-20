@@ -7,7 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const router = useRouter();
+  const {push} = useRouter();
   const t = useTranslations("Navigation");
 
   return (
@@ -27,7 +27,7 @@ const Navbar = () => {
               aria-label="menu"
               sx={{ mr: 2 }}
               onClick={() => {
-                router.push("/");
+                push("/");
               }}
             >
               <HomeIcon />

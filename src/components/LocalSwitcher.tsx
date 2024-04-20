@@ -3,7 +3,7 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import React, { startTransition } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const LocalSwitcher = () => {
   const router = useRouter();
