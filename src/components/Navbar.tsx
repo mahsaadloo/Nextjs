@@ -5,9 +5,10 @@ import LocalSwitcher from "./LocalSwitcher";
 import { AppBar, Box, IconButton, Stack, Toolbar } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/navigation";
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 const Navbar = () => {
-  const {push} = useRouter();
+  const { push } = useRouter();
   const t = useTranslations("Navigation");
 
   return (
@@ -20,18 +21,32 @@ const Navbar = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={() => {
-                push("/");
-              }}
-            >
-              <HomeIcon />
-            </IconButton>
+            <div>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => {
+                  push("/");
+                }}
+              >
+                <HomeIcon />
+              </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => {
+                  push("/en/create");
+                }}
+              >
+                <NoteAddIcon />
+              </IconButton>
+            </div>
             <div>
               <LocalSwitcher />
             </div>
