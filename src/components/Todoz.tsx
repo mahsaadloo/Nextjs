@@ -17,9 +17,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { onDeleteTodo } from "@/redux/todoSlice";
 import { useDispatch } from "react-redux";
-import FakeTodoz from "./FakeTodo/page";
 
-export default function Index() {
+interface todozProps {
+  id: number;
+  title: string;
+}
+
+interface Props {
+  todoz: todozProps[];
+}
+
+const Todoz = ({ todoz }: Props) => {
   const dispatch = useDispatch();
   const t = useTranslations("Index");
   const { push } = useRouter();
@@ -35,16 +43,13 @@ export default function Index() {
   const handleDeleteTodo = (id: number) => {
     dispatch(onDeleteTodo(id));
   };
-
-  const todos = useSelector((state: RootState) => state.todos.todos);
-
   return (
     <>
       <Box>
         {/* todo list
-    input */}
+  input */}
         <Box>
-          {todos.map((todo) => {
+          {todoz.map((todo) => {
             return (
               <Paper key={todo.id} variant="outlined" sx={{ mx: 10, p: 5 }}>
                 <Stack
@@ -53,7 +58,7 @@ export default function Index() {
                   justifyContent="space-between"
                 >
                   <Box>
-                    <Typography textAlign="center"> {todo.name} </Typography>
+                    <Typography textAlign="center"> {todo.title} </Typography>
                   </Box>
                   <IconButton
                     aria-label="more"
@@ -102,9 +107,10 @@ export default function Index() {
               </Paper>
             );
           })}
-          <FakeTodoz />
         </Box>
       </Box>
     </>
   );
-}
+};
+
+export default Todoz;
