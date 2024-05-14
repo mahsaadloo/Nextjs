@@ -15,8 +15,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { onDeleteTodo, todoList } from "@/redux/todoSlice";
+import { useDispatch } from "react-redux";
 
 export default function Index() {
+  const dispatch = useDispatch();
   const t = useTranslations("Index");
   const { push } = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -27,7 +30,13 @@ export default function Index() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDeleteTodo = (id: number) => {
+    dispatch(onDeleteTodo(id));
+  };
+
   const todos = useSelector((state: RootState) => state.todos.todos);
+
   console.log(todos);
   return (
     <>
@@ -67,7 +76,15 @@ export default function Index() {
                       },
                     }}
                   >
-                    <MenuItem onClick={handleClose}>Delete</MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Button
+                        onClick={() => {
+                          handleDeleteTodo(todo.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </MenuItem>
                   </Menu>
                 </Stack>
                 <Stack justifyContent="end" direction="row">
