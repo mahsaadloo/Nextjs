@@ -1,5 +1,5 @@
 "use client";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const ToDo = () => {
