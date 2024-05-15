@@ -6,7 +6,7 @@ export interface todoList {
 }
 
 const initialState: todoList = {
-  todos: [{id:1, name: "hello"}],
+  todos: [],
 };
 
 export const todoSlice = createSlice({
@@ -18,9 +18,15 @@ export const todoSlice = createSlice({
       const newTodos = [...state.todos, { id: newId, name: action.payload }];
       state.todos = newTodos;
     },
+    onDeleteTodo: (state, action: PayloadAction<number>) => {
+      const deleteTodo = (state.todos = state.todos.filter((todo) => {
+        todo.id !== action.payload;
+      }));
+      state.todos = deleteTodo;
+    },
   },
 });
 
-export const { onAddTodo } = todoSlice.actions;
+export const { onAddTodo, onDeleteTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
