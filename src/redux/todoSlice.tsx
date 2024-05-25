@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface todoList {
-  todos: { id: number; name: string }[];
+  todos: { id: number; title: string }[];
 }
 
 const initialState: todoList = {
@@ -15,7 +15,7 @@ export const todoSlice = createSlice({
   reducers: {
     onAddTodo: (state, action: PayloadAction<string>) => {
       const newId = state.todos.length + 1;
-      const newTodos = [...state.todos, { id: newId, name: action.payload }];
+      const newTodos = [...state.todos, { id: newId, title: action.payload }];
       state.todos = newTodos;
     },
     onDeleteTodo: (state, action: PayloadAction<number>) => {
@@ -24,9 +24,12 @@ export const todoSlice = createSlice({
       }));
       state.todos = deleteTodo;
     },
+    onUpdateTodos: (state, action: PayloadAction<{ id: number; title: string }[]>) => {
+      state.todos = action.payload
+    }
   },
 });
 
-export const { onAddTodo, onDeleteTodo } = todoSlice.actions;
+export const { onAddTodo, onDeleteTodo, onUpdateTodos } = todoSlice.actions;
 
 export default todoSlice.reducer;
