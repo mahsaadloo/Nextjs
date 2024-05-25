@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Box,
   Button,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -15,9 +16,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { onDeleteTodo } from "@/redux/todoSlice";
+import { onDeleteTodo, onUpdateTodos } from "@/redux/todoSlice";
 import { useDispatch } from "react-redux";
-import FakeTodoz from "./FakeTodo/page";
+import axios from "axios";
+import Pagination from "@mui/material/Pagination";
+import PaginationApp from "@/components/Pagination";
 
 export default function Index() {
   const dispatch = useDispatch();
@@ -25,6 +28,9 @@ export default function Index() {
   const { push } = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,12 +44,28 @@ export default function Index() {
 
   const todos = useSelector((state: RootState) => state.todos.todos);
 
+
+  React.useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => {
+        setIsLoading(true);
+        dispatch(onUpdateTodos(res.data));
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+      });
+  }, [dispatch]);
+
+
   return (
     <>
-      <Box>
+      <Container>
         {/* todo list
     input */}
-        <Box>
+        {isLoading ? " Loading ... " : null}
+        <Stack spacing={1}>
           {todos.map((todo) => {
             return (
               <Paper key={todo.id} variant="outlined" sx={{ mx: 10, p: 5 }}>
@@ -53,7 +75,7 @@ export default function Index() {
                   justifyContent="space-between"
                 >
                   <Box>
-                    <Typography textAlign="center"> {todo.name} </Typography>
+                    <Typography textAlign="center"> {todo.title} </Typography>
                   </Box>
                   <IconButton
                     aria-label="more"
@@ -102,9 +124,9 @@ export default function Index() {
               </Paper>
             );
           })}
-          <FakeTodoz />
-        </Box>
-      </Box>
+        </Stack>
+        <PaginationApp />
+      </Container>
     </>
   );
 }
